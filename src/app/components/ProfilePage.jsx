@@ -35,7 +35,9 @@ export default function ProfilePage() {
     const logout = () => {
         signOut()
     }
-    const { data: session } = useSession()
+    const { data: session, update } = useSession();
+
+    console.log(session)
 
     return (
         <div className="h-screen">

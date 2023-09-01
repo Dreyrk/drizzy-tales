@@ -7,7 +7,7 @@ import NormalHeader from "./NormalHeader";
 import SearchHeader from "./SearchHeader";
 
 
-export default function Header({ setSort, search, setSearch }) {
+export default function Header({ setSort, search, setSearch, newUser, setEdit, edit }) {
     const [searching, setSearching] = useState(false);
 
     const pathname = usePathname();
@@ -20,7 +20,7 @@ export default function Header({ setSort, search, setSearch }) {
                 )
             } else {
                 return (
-                    <NormalHeader setSort={setSort} title={"Browse"} setSearching={setSearching} />
+                    <NormalHeader newUser={newUser} setSort={setSort} title={"Browse"} setSearching={setSearching} />
                 )
             }
         case "/chat":
@@ -40,7 +40,7 @@ export default function Header({ setSort, search, setSearch }) {
                 )
             } else {
                 return (
-                    <NormalHeader setSort={setSort} title={"Profile"} setSearching={setSearching} />
+                    <NormalHeader edit={edit} setEdit={setEdit} newUser={newUser} setSort={setSort} title={"Profile"} setSearching={setSearching} />
                 )
             }
         default:

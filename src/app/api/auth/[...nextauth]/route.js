@@ -41,6 +41,47 @@ export const authOptions = {
   pages: {
     signIn: "/profile",
   },
+  callbacks: {
+    async jwt({ token, user, session, trigger }) {
+      if (trigger === "update" && session?.pseudo) {
+        token.pseudo = session.pseudo;
+      }
+      if (trigger === "update" && session?.watchlist) {
+        token.watchlist = session.watchlist;
+      }
+      //pass user infos in token
+      if (user) {
+        return {
+          ...token,
+          id: user._id,
+          isAdmin: user.isAdmin,
+          pseudo: user.pseudo,
+          email: user.email,
+          watchlist: user.watchlist,
+        };
+      }
+
+      //update user in db
+      await Users.findByIdAndUpdate(token.id, {
+        pseudo: token.pseudo,
+        watchlist: token.watchlist,
+      });
+
+      return token;
+    },
+    async session({ session, token, user }) {
+      return {
+        ...session,
+        user: {
+          pseudo: token.pseudo,
+          email: token.email,
+          watchlist: token.watchlist,
+          id: token.id,
+          isAdmin: token.isAdmin,
+        },
+      };
+    },
+  },
 };
 
 const handler = NextAuth(authOptions);
