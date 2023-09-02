@@ -1,17 +1,14 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 'use client'
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
 export default function CarouselItem({ anime }) {
-    let windowScreen
     function getCurrentDimension() {
-        if (typeof window !== undefined) {
-            windowScreen = window
+        if (typeof window !== 'undefined') {
             return {
-                width: windowScreen.innerWidth,
-                height: windowScreen.innerHeight
+                width: window.innerWidth,
+                height: window.innerHeight
             }
         } else {
             return 0
@@ -23,15 +20,15 @@ export default function CarouselItem({ anime }) {
     const poster = screenSize.width < 560 ? anime.img.poster.large : anime.img.cover.large;
 
     useEffect(() => {
-        if (typeof window !== undefined) {
+        if (typeof window !== 'undefined') {
             const updateDimension = () => {
                 setScreenSize(getCurrentDimension())
             }
-            windowScreen.addEventListener('resize', updateDimension);
+            window.addEventListener('resize', updateDimension);
 
 
             return (() => {
-                windowScreen.removeEventListener('resize', updateDimension);
+                window.removeEventListener('resize', updateDimension);
             })
         } else {
             return
