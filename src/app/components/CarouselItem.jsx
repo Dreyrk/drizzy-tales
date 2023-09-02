@@ -18,15 +18,17 @@ export default function CarouselItem({ anime }) {
     const poster = screenSize.width < 560 ? anime.img.poster.large : anime.img.cover.large;
 
     useEffect(() => {
-        const updateDimension = () => {
-            setScreenSize(getCurrentDimension())
+        if (typeof window !== undefined) {
+            const updateDimension = () => {
+                setScreenSize(getCurrentDimension())
+            }
+            window.addEventListener('resize', updateDimension);
+
+
+            return (() => {
+                window.removeEventListener('resize', updateDimension);
+            })
         }
-        window.addEventListener('resize', updateDimension);
-
-
-        return (() => {
-            window.removeEventListener('resize', updateDimension);
-        })
     }, [screenSize])
 
     return <Image loader={() => poster} height={maxCoverHeight} width={screenSize.width} unoptimized={true} src={poster} alt="carousel-item" />
