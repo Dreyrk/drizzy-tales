@@ -4,11 +4,13 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 export default function CarouselItem({ anime }) {
+    let windowScreen
     function getCurrentDimension() {
         if (typeof window !== undefined) {
+            windowScreen = window
             return {
-                width: window.innerWidth,
-                height: window.innerHeight
+                width: windowScreen.innerWidth,
+                height: windowScreen.innerHeight
             }
         } else {
             return 0
@@ -24,11 +26,11 @@ export default function CarouselItem({ anime }) {
             const updateDimension = () => {
                 setScreenSize(getCurrentDimension())
             }
-            window.addEventListener('resize', updateDimension);
+            windowScreen.addEventListener('resize', updateDimension);
 
 
             return (() => {
-                window.removeEventListener('resize', updateDimension);
+                windowScreen.removeEventListener('resize', updateDimension);
             })
         } else {
             return
