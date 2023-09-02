@@ -1,23 +1,38 @@
 "use client"
 
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai";
-import { BiBlock } from "react-icons/bi"
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react"
 
 
 export default function AddToWatchlistBtn({ anime }) {
-    const { status } = useSession()
+    const { status, update, data: session } = useSession()
     const [added, setAdded] = useState(false);
+
+    const watchlist = session?.user.watchlist.animes;
+
+    useEffect(() => {
+        if (watchlist) {
+            console.log(watchlist)
+            setAdded(watchlist.some((el) => el.id === anime.id))
+        } else {
+            return
+        }
+    }, [watchlist, anime])
 
 
     const handleClick = () => {
         if (added) {
-            setAdded(false)
+            const newWatchlist = watchlist.filter((el) => el.id !== anime.id);
+            update({ watchlist: { animes: newWatchlist } });
+            setAdded(false);
         } else {
-            setAdded(true)
+            const newWatchlist = [...(watchlist || []), anime];
+            update({ watchlist: { animes: newWatchlist } });
+            setAdded(true);
         }
-    }
+    };
+
     if (status === "authenticated") {
         return (
             <button onClick={handleClick} type="button" className="no-style-btn w-[25px] h-[25px]">
@@ -30,10 +45,6 @@ export default function AddToWatchlistBtn({ anime }) {
             </button>
         )
     } else {
-        return (
-            <button className="no-style-btn" disabled type="button">
-                <BiBlock size={20} />
-            </button>
-        )
+        return null
     }
 }

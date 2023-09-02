@@ -4,10 +4,12 @@ import { NextResponse } from "next/server";
 import bcryptjs from "bcryptjs";
 
 export async function POST(req) {
+  const { pseudo, email, password } = await req.json();
   try {
-    const { pseudo, email, password } = await req.json();
     await connect();
-    const userAlreadyExist = await Users.findOne({ email }).select("_id");
+    const findUser = await Users.findOne({ email });
+    console.log(findUser);
+    const userAlreadyExist = Boolean(findUser);
     if (userAlreadyExist) {
       return NextResponse.json({
         success: false,

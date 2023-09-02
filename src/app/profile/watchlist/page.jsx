@@ -1,18 +1,30 @@
 'use client'
 
+import { useSession } from "next-auth/react"
 import AnimeBox from "../../components/AnimeBox"
 import NavBar from "../../components/NavBar"
-import { useCurrentUserContext } from "../../context/userContext"
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
-    const { user } = useCurrentUserContext();
+    const { data: session, status } = useSession();
+    const router = useRouter()
+
+    useEffect(() => {
+        if (status === "unauthenticated") {
+            router.push("/")
+        } else {
+            return
+        }
+    }, [status])
+
     return (
         <div className="page">
-            <h1 className="p-4 text-2xl font-bold underline">{user.pseudo ? `${user.pseudo}'s watchlist` : "loading..."}</h1>
+            <h1 className="p-4 text-2xl font-bold underline">{session?.user.pseudo ? `${session?.user.pseudo}'s watchlist` : "loading..."}</h1>
             <div className="flex flex-col items-center my-6 content gap-14">
                 {
-                    user.watchlist?.animes[0] ?
-                        user.watchlist.animes.map((anime, i) => {
+                    session?.user.watchlist.animes[0] ?
+                        session?.user.watchlist.animes.map((anime, i) => {
                             return <AnimeBox anime={anime} key={i} />
                         })
                         :

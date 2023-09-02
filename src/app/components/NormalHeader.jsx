@@ -16,12 +16,12 @@ const filtersArray = [
 ]
 
 
-export default function NormalHeader({ title, setSearching, setSort, newUser, setEdit }) {
+export default function NormalHeader({ title, setSearching, setSort, newUser, setEdit, edit }) {
     const [showFilters, setShowFilters] = useState(false);
     const pathname = usePathname()
     return (
-        <header className="w-screen">
-            <HeaderBtn setEdit={setEdit} title={title} setSearching={setSearching} pathname={pathname} setShowFilters={setShowFilters} />
+        <header className="w-full">
+            <HeaderBtn edit={edit} setEdit={setEdit} title={title} newUser={newUser} setSearching={setSearching} pathname={pathname} setShowFilters={setShowFilters} />
             {showFilters && pathname === "/browse" && <Filters filtersArray={filtersArray} setSort={setSort} />}
         </header>
     )

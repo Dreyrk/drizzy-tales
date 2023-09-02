@@ -69,7 +69,6 @@ export default function Register({ setRegistered }) {
                 } else {
                     setLoading(false)
                     toast.error(message);
-                    console.log(error)
                 }
             }
         } catch (e) {

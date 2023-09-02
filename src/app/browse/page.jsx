@@ -46,7 +46,9 @@ export default function Page() {
     }, [data]);
 
     useEffect(() => {
-        setLastScrollTop(0)
+        if (search !== "") {
+            setLastScrollTop(0);
+        }
     }, [sort, search])
 
 
@@ -54,9 +56,9 @@ export default function Page() {
         //Si l'on arrive en bas de la page alors on actualise size
 
         //Mobile
-        if (e.target.scrollTop >= lastScrollTop + 1200 && e.target.clientWidth < 1025) {
+        if (e.target.scrollTop >= lastScrollTop + 1000 && e.target.clientWidth < 1025) {
             setSize(size + 1);
-            setLastScrollTop(lastScrollTop + 1200);
+            setLastScrollTop(lastScrollTop + 1000);
         }
         //Desktop
         if (e.target.scrollTop >= lastScrollTop + 70 && e.target.clientWidth > 1025) {

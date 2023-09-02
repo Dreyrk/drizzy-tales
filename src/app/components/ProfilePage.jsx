@@ -7,6 +7,7 @@ import { signOut, useSession } from "next-auth/react";
 import Header from "../components/Header";
 import NavBar from "../components/NavBar";
 import ProfileLink from "./ProfileLink";
+import { useState } from "react";
 
 const links = [
     {
@@ -32,21 +33,31 @@ const links = [
 ]
 
 export default function ProfilePage() {
+    const { data: session } = useSession();
+    const [newUser, setNewUser] = useState({ pseudo: session?.user.pseudo, email: session?.user.email })
+    const [edit, setEdit] = useState(false);
     const logout = () => {
         signOut()
     }
-    const { data: session, update } = useSession();
-
-    console.log(session)
 
     return (
         <div className="h-screen">
-            <Header />
+            <Header newUser={newUser} setEdit={setEdit} edit={edit} />
             <div className="content">
                 <div className="grid gap-2 mt-4 place-items-center">
                     <Image width={100} height={100} className="object-contain rounded-full" src={session?.user?.profilePic ? session?.user?.profilePic : "/images/missingPage.jpg"} alt="profile-pic" />
-                    <p className="m-0 text-xl font-semibold">{session?.user?.pseudo ? session?.user?.pseudo : "loading..."}</p>
-                    <span className="text-xs font-light">{session?.user?.email ? session?.user?.email : "loading..."}</span>
+                    {
+                        edit ?
+                            <>
+                                <input type="text" className="w-1/3 text-center text-black" value={newUser.pseudo} onChange={(e) => setNewUser({ ...newUser, pseudo: e.target.value })} />
+                                <input type="text" className="w-3/4 text-center text-black" value={newUser.email} onChange={(e) => setNewUser({ ...newUser, email: e.target.value })} />
+                            </>
+                            :
+                            <>
+                                <p className="m-0 text-xl font-semibold">{session?.user?.pseudo ? session?.user?.pseudo : "loading..."}</p>
+                                <span className="text-xs font-light">{session?.user?.email ? session?.user?.email : "loading..."}</span>
+                            </>
+                    }
                 </div>
                 <div className="max-h-[60vh] overflow-auto no-scrollbar mt-4">
                     {links.map((link) => {

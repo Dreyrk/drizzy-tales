@@ -46,8 +46,11 @@ export const authOptions = {
       if (trigger === "update" && session?.pseudo) {
         token.pseudo = session.pseudo;
       }
+      if (trigger === "update" && session?.email) {
+        token.email = session.email;
+      }
       if (trigger === "update" && session?.watchlist) {
-        token.watchlist = session.watchlist;
+        token.watchlist.animes = session?.watchlist.animes;
       }
       //pass user infos in token
       if (user) {
@@ -60,12 +63,14 @@ export const authOptions = {
           watchlist: user.watchlist,
         };
       }
-
       //update user in db
-      await Users.findByIdAndUpdate(token.id, {
-        pseudo: token.pseudo,
-        watchlist: token.watchlist,
-      });
+      const currentUser = await Users.findById(token.id);
+
+      currentUser.pseudo = token.pseudo;
+      currentUser.email = token.email;
+      currentUser.watchlist.animes = token.watchlist.animes;
+
+      await currentUser.save();
 
       return token;
     },
