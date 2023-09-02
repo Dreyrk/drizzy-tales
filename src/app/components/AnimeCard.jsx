@@ -5,8 +5,6 @@ import Image from "next/image";
 
 export default function AnimeCard({ anime, isLoading, isError, id }) {
     const poster = anime?.posterImage?.medium;
-    const mediumImgWidth = anime?.posterImage?.meta.dimensions.medium?.width;
-    const mediumImgHeight = anime?.posterImage?.meta.dimensions.medium?.height;
     const type = anime?.subtype;
 
     if (type === "movie") {

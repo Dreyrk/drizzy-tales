@@ -40,12 +40,13 @@ export default function AnimeDetails() {
     } else {
       throw new Error("Failed to fetch genres")
     }
-  }, [data])
+  }, [genresLink])
 
   useEffect(() => {
     if (data && !isLoading && !isError) {
       getGenres()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   const dynamicBackgroundImg = `

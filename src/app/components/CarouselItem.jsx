@@ -5,9 +5,11 @@ import { useEffect, useState } from "react";
 
 export default function CarouselItem({ anime }) {
     function getCurrentDimension() {
-        return {
-            width: window.innerWidth,
-            height: window.innerHeight
+        if (typeof window !== undefined) {
+            return {
+                width: window.innerWidth,
+                height: window.innerHeight
+            }
         }
     }
     const [screenSize, setScreenSize] = useState(getCurrentDimension());

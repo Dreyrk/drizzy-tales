@@ -11,8 +11,6 @@ import AddToWatchlistBtn from "./AddToWatchListBtn.jsx"
 export default function AnimeBox({ anime, isLoading, isError }) {
     const attributes = anime.attributes;
     const poster = attributes.posterImage.tiny;
-    const tinyImgWidth = attributes.posterImage.meta.dimensions.tiny?.width;
-    const tinyImgHeight = attributes.posterImage.meta.dimensions.tiny?.height;
     const rating = getStarsRating(attributes.averageRating);
 
 
