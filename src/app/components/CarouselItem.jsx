@@ -10,6 +10,8 @@ export default function CarouselItem({ anime }) {
                 width: window.innerWidth,
                 height: window.innerHeight
             }
+        } else {
+            return 0
         }
     }
     const [screenSize, setScreenSize] = useState(getCurrentDimension());
@@ -28,6 +30,8 @@ export default function CarouselItem({ anime }) {
             return (() => {
                 window.removeEventListener('resize', updateDimension);
             })
+        } else {
+            return
         }
     }, [screenSize])
 
