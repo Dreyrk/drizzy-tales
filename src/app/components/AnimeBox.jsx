@@ -18,7 +18,7 @@ export default function AnimeBox({ anime, isLoading, isError }) {
         return (
             <div id="anime-box" className="w-[90vw] lg:w-[30vw] bg-secondary h-[156px] grid-box place-items-center rounded-md shadow shadow-violet-500">
                 <div className="col-start-1">
-                    <Image unoptimized={true} loader={() => poster} width={100} height={100} className={`-translate-y-6 hover:translate-y-0 active:translate-y-0 active:shadow-none shadow-sm shadow-light-black rounded-md`} src={poster} alt={attributes.slug} />
+                    <Image unoptimized={true} loader={() => poster} width={110} height={156} className={`-translate-y-6 hover:translate-y-0 active:translate-y-0 active:shadow-none shadow-sm shadow-light-black rounded-md`} src={poster} alt={attributes.slug} />
                 </div>
                 <div className="flex flex-col justify-between w-full h-full col-start-2 py-2 place-self-start">
                     <div className="flex items-center justify-between w-full">

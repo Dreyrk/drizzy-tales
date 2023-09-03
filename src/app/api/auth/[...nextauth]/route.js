@@ -29,7 +29,7 @@ export const authOptions = {
 
           return user;
         } catch (error) {
-          console.log("Error: ", error);
+          console.log("Error in authorize: ", error);
         }
       },
     }),
@@ -64,6 +64,7 @@ export const authOptions = {
         };
       }
       //update user in db
+      await connect();
       const currentUser = await Users.findById(token.id);
 
       currentUser.pseudo = token.pseudo;
