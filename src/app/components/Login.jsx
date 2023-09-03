@@ -37,19 +37,15 @@ export default function Login() {
 
     const login = async (e) => {
         e.preventDefault();
-        try {
-            const res = await signIn("credentials", { ...loginUser, redirect: false })
-            if (res.error) {
-                toast.error('Invalid credentials...')
-                console.error(res.error)
-            } else {
-                toast.success('Login successfully !')
-                setTimeout(() => router.refresh(), "2000")
-            }
-        } catch (e) {
-            throw new Error(`Failed to login: ${e.message}`)
+        const res = await signIn("credentials", { ...loginUser, redirect: false });
+        console.log(res)
+        if (res.error) {
+            toast.error('Invalid credentials...');
+            console.error(res.error);
+        } else {
+            toast.success('Login successfully !')
+            setTimeout(() => router.refresh(), "2000");
         }
-
     }
 
 
