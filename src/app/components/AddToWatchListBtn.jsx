@@ -3,6 +3,7 @@
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react"
+import updateWatchlist from "../serverActions/updateWatchlist";
 
 
 export default function AddToWatchlistBtn({ anime }) {
@@ -20,15 +21,18 @@ export default function AddToWatchlistBtn({ anime }) {
     }, [watchlist, anime])
 
 
-    const handleClick = () => {
+    const handleClick = async () => {
+        let newWatchlist
         if (added) {
-            const newWatchlist = watchlist.filter((el) => el.id !== anime.id);
-            update({ ...session.user, watchlist: { animes: newWatchlist, mangas: session.user.watchlist.mangas } });
+            newWatchlist = watchlist.filter((el) => el.id !== anime.id);
             setAdded(false);
         } else {
-            const newWatchlist = [...(watchlist || []), anime];
-            update({ ...session.user, watchlist: { animes: newWatchlist, mangas: session.user.watchlist.mangas } });
+            newWatchlist = [...(watchlist || []), anime];
             setAdded(true);
+        }
+        if (newWatchlist) {
+            await updateWatchlist(session?.user.id, newWatchlist);
+            update();
         }
     };
 

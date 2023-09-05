@@ -3,8 +3,11 @@ import Users from "@/models/userModel";
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
+import { MongoDBAdapter } from "@auth/mongodb-adapter";
+import clientPromise from "@/app/lib/mongodb";
 
 export const authOptions = {
+  adapter: MongoDBAdapter(clientPromise),
   providers: [
     CredentialsProvider({
       name: "credentials",
@@ -83,8 +86,6 @@ export const authOptions = {
           currentUser.watchlist = session.watchlist;
           token.watchlist = session.watchlist;
         }
-
-        await currentUser.save();
 
         return token;
       } catch (error) {
