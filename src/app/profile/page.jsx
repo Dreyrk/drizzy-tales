@@ -6,7 +6,7 @@ import ProfileAuth from "../components/ProfileAuth"
 import { useSession } from "next-auth/react"
 
 export default function Page() {
-    const { status } = useSession()
+    const { status } = useSession();
     if (status === "authenticated") {
         return (
             <ProfilePage />

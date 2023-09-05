@@ -13,7 +13,6 @@ export default function AddToWatchlistBtn({ anime }) {
 
     useEffect(() => {
         if (watchlist) {
-            console.log(watchlist)
             setAdded(watchlist.some((el) => el.id === anime.id))
         } else {
             return
@@ -24,11 +23,11 @@ export default function AddToWatchlistBtn({ anime }) {
     const handleClick = () => {
         if (added) {
             const newWatchlist = watchlist.filter((el) => el.id !== anime.id);
-            update({ watchlist: { animes: newWatchlist } });
+            update({ ...session.user, watchlist: { animes: newWatchlist, mangas: session.user.watchlist.mangas } });
             setAdded(false);
         } else {
             const newWatchlist = [...(watchlist || []), anime];
-            update({ watchlist: { animes: newWatchlist } });
+            update({ ...session.user, watchlist: { animes: newWatchlist, mangas: session.user.watchlist.mangas } });
             setAdded(true);
         }
     };
