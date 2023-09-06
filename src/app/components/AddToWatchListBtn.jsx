@@ -7,32 +7,30 @@ import updateWatchlist from "../serverActions/updateWatchlist";
 
 
 export default function AddToWatchlistBtn({ anime }) {
-    const { status, update, data: session } = useSession()
+    const { status, data: session } = useSession()
     const [added, setAdded] = useState(false);
-
-    const watchlist = session?.user.watchlist.animes;
+    const [watchlist, setWatchlist] = useState([]);
 
     useEffect(() => {
-        if (watchlist) {
-            setAdded(watchlist.some((el) => el.id === anime.id))
-        } else {
-            return
+        async function getData() {
+            const userWatchlist = await getUserWatchlist(session?.user.id);
+            setWatchlist(userWatchlist);
         }
-    }, [watchlist, anime])
+        getData();
+        if (watchlist[0]) {
+            setAdded(watchlist.some((el) => el.id === anime.id))
+        }
+    }, [session, anime, watchlist])
 
 
     const handleClick = async () => {
-        let newWatchlist
         if (added) {
-            newWatchlist = watchlist.filter((el) => el.id !== anime.id);
             setAdded(false);
         } else {
-            newWatchlist = [...(watchlist || []), anime];
             setAdded(true);
         }
         if (newWatchlist) {
             await updateWatchlist(session?.user.id, newWatchlist);
-            update();
         }
     };
 

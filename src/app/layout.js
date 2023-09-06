@@ -1,19 +1,22 @@
-import { AuthProvider } from "./AuthProvider";
+import { getServerSession } from "next-auth";
+import AuthProvider from "./AuthProvider";
 import "./globals.css";
 import { Inter } from "next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Anime Gang",
+  title: "Drizzy Tales",
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  const session = await getServerSession();
+
   return (
     <html lang="en">
       <body
         className={`${inter.className} bg-[#000814] text-white relative max-h-screen`}>
-        <AuthProvider>{children}</AuthProvider>
+        <AuthProvider session={session}>{children}</AuthProvider>
       </body>
     </html>
   );

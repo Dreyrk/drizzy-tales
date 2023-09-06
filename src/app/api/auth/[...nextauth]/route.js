@@ -46,64 +46,25 @@ export const authOptions = {
   },
   callbacks: {
     async jwt({ token, user, session, trigger }) {
-      try {
-        if (session) {
-          token = {
-            ...token,
-            pseudo: user?.pseudo,
-            email: user?.email,
-            watchlist: {
-              animes: user?.watchlist.animes,
-            },
-          };
-        }
-
-        if (user?._id) {
-          token = {
-            ...token,
-            id: user?._id,
-            isAdmin: user?.isAdmin,
-            pseudo: user?.pseudo,
-            email: user?.email,
-            watchlist: user?.watchlist,
-          };
-        }
-        //update token
-        await connect();
-        const currentUser = await Users.findById(token.id);
-
-        if (session?.pseudo && trigger === "update") {
-          currentUser.pseudo = session.pseudo;
-          token.pseudo = session.pseudo;
-        }
-
-        if (session?.email && trigger === "update") {
-          currentUser.email = session.email;
-          token.email = session.email;
-        }
-
-        if (session?.watchlist?.animes && trigger === "update") {
-          currentUser.watchlist = session.watchlist;
-          token.watchlist = session.watchlist;
-        }
-
-        return token;
-      } catch (error) {
-        console.error("Erreur dans jwt callback :", error.message);
+      if (trigger === "update") {
       }
+
+      return {
+        ...token,
+        user: {
+          id: user?._id,
+          isAdmin: user?.isAdmin,
+          pseudo: user?.pseudo,
+          email: user?.email,
+          watchlist: user?.watchlist,
+        },
+      };
     },
 
     async session({ session, token }) {
-      return {
-        ...session,
-        user: {
-          id: token?.id,
-          isAdmin: token.isAdmin,
-          pseudo: token.pseudo,
-          email: token.email,
-          watchlist: token.watchlist,
-        },
-      };
+      session.user = token.user;
+
+      return session;
     },
   },
 };
