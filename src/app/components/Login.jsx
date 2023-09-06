@@ -4,7 +4,6 @@ import { useRouter } from 'next/navigation'
 import { AiOutlineMail, AiOutlineLock } from 'react-icons/ai'
 import FormInput from './FormInput'
 import { useState } from 'react'
-import authFetcher from '../../utils/authFetcher'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import { signIn } from 'next-auth/react'
@@ -37,14 +36,18 @@ export default function Login() {
 
     const login = async (e) => {
         e.preventDefault();
-        const res = await signIn("credentials", { ...loginUser, redirect: false });
-        console.log(res)
-        if (res.error) {
-            toast.error('Invalid credentials...');
-            console.error(res.error);
-        } else {
-            toast.success('Login successfully !')
-            setTimeout(() => router.refresh(), "2000");
+        try {
+            const res = await signIn("credentials", { ...loginUser, redirect: false });
+            if (res.error) {
+                toast.warn('Invalid credentials...');
+                console.error(res.error);
+            } else if (res.ok) {
+                toast.success('Login successfully !')
+                setTimeout(() => router.refresh(), "3000");
+            }
+        } catch (e) {
+            toast.error(`Failed to sign in : ${e.message}`)
+            console.error(e)
         }
     }
 

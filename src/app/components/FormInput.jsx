@@ -18,7 +18,7 @@ export default function FormInput({ id, label, value, setValue, logo, type }) {
                 {logo}
             </div>
             <div className="relative">
-                <input id={id} type={!show ? type : "text"} value={value} onChange={onChange} className="w-full h-8 px-2 py-1 text-gray-900 placeholder-transparent border-b-2 border-gray-300 rounded-lg peer focus:outline-none focus:border-purple-600" autoComplete="off" placeholder="username" />
+                <input id={id} type={!show ? type : "text"} value={value} onChange={onChange} className="w-full h-8 px-2 py-1 text-gray-900 placeholder-transparent border-b-2 border-gray-300 rounded-lg peer focus:outline-none focus:border-purple-600" autoComplete="off" placeholder={label} />
                 <label htmlFor={id} className="absolute text-sm text-gray-600 transition-all left-1 -top-5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-1 peer-placeholder-shown:left-1 peer-focus:-top-5 peer-focus:text-gray-600 peer-focus:font-light peer-focus:text-sm">{label}</label>
                 {type === 'password' &&
                     <button type="button" onClick={() => setShow(!show)} className="absolute right-1 text-black top-1.5 no-style-btn">

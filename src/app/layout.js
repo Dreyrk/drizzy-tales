@@ -1,14 +1,15 @@
-import { AuthProvider } from "./AuthProvider";
+import { getServerSession } from "next-auth";
+import AuthProvider from "./AuthProvider";
 import "./globals.css";
 import { Inter } from "next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Anime Gang",
+  title: "Drizzy Tales",
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
   return (
     <html lang="en">
       <body

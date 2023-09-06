@@ -3,33 +3,36 @@ import Users from "@/models/userModel";
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
+import { MongoDBAdapter } from "@auth/mongodb-adapter";
+import clientPromise from "@/app/lib/mongodb";
 
 export const authOptions = {
+  adapter: MongoDBAdapter(clientPromise),
   providers: [
     CredentialsProvider({
       name: "credentials",
-      credentials: {},
-
+      credentials: {
+        email: { type: "text", label: "Email" },
+        password: { type: "password", label: "Password" },
+      },
       async authorize(credentials) {
         const { email, password } = credentials;
-
         try {
           await connect();
           const user = await Users.findOne({ email });
 
           if (!user) {
-            return null;
+            throw Error("email/password mismatch");
           }
 
           const passwordsMatch = await bcrypt.compare(password, user.password);
 
           if (!passwordsMatch) {
-            return null;
+            throw Error("email/password mismatch");
           }
-
           return user;
         } catch (error) {
-          console.log("Error in authorize: ", error);
+          console.error("Error in authorize: ", error.message);
         }
       },
     }),
@@ -42,50 +45,24 @@ export const authOptions = {
     signIn: "/profile",
   },
   callbacks: {
-    async jwt({ token, user, session, trigger }) {
-      if (trigger === "update" && session?.pseudo) {
-        token.pseudo = session.pseudo;
-      }
-      if (trigger === "update" && session?.email) {
-        token.email = session.email;
-      }
-      if (trigger === "update" && session?.watchlist) {
-        token.watchlist.animes = session?.watchlist.animes;
-      }
-      //pass user infos in token
+    async jwt({ token, user }) {
       if (user) {
-        return {
+        token = {
           ...token,
-          id: user._id,
-          isAdmin: user.isAdmin,
-          pseudo: user.pseudo,
-          email: user.email,
-          watchlist: user.watchlist,
+          user: {
+            id: user?._id,
+            isAdmin: user?.isAdmin,
+            pseudo: user?.pseudo,
+            email: user?.email,
+          },
         };
       }
-      //update user in db
-      await connect();
-      const currentUser = await Users.findById(token.id);
-
-      currentUser.pseudo = token.pseudo;
-      currentUser.email = token.email;
-      currentUser.watchlist.animes = token.watchlist.animes;
-
-      await currentUser.save();
-
       return token;
     },
-    async session({ session, token, user }) {
-      return {
-        ...session,
-        user: {
-          pseudo: token.pseudo,
-          email: token.email,
-          watchlist: token.watchlist,
-          id: token.id,
-          isAdmin: token.isAdmin,
-        },
-      };
+    async session({ session, token }) {
+      session.user = token.user;
+
+      return session;
     },
   },
 };

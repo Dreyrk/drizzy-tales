@@ -3,34 +3,41 @@
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react"
+import updateWatchlist from "../serverActions/updateWatchlist";
+import getUserWatchlist from "../serverActions/getUserWatchlist";
 
 
 export default function AddToWatchlistBtn({ anime }) {
-    const { status, update, data: session } = useSession()
+    const { status, data: session } = useSession();
     const [added, setAdded] = useState(false);
+    const [watchlist, setWatchlist] = useState([]);
 
-    const watchlist = session?.user.watchlist.animes;
+    const userId = session?.user.id;
 
     useEffect(() => {
-        if (watchlist) {
-            console.log(watchlist)
-            setAdded(watchlist.some((el) => el.id === anime.id))
-        } else {
-            return
+        async function fetchData() {
+            if (userId) {
+                const userWatchlist = await getUserWatchlist(userId);
+                setWatchlist(userWatchlist);
+            }
         }
-    }, [watchlist, anime])
+
+        fetchData();
+        if (Boolean(watchlist)) {
+            setAdded(watchlist.some((el) => el.id === anime.id))
+        }
+    }, [])
 
 
-    const handleClick = () => {
+    const handleClick = async () => {
         if (added) {
-            const newWatchlist = watchlist.filter((el) => el.id !== anime.id);
-            update({ watchlist: { animes: newWatchlist } });
             setAdded(false);
         } else {
-            const newWatchlist = [...(watchlist || []), anime];
-            update({ watchlist: { animes: newWatchlist } });
             setAdded(true);
         }
+        const newWatchlist = await updateWatchlist(userId, anime);
+        console.log(newWatchlist)
+        setWatchlist(newWatchlist);
     };
 
     if (status === "authenticated") {

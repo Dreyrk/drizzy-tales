@@ -8,7 +8,6 @@ export async function POST(req) {
   try {
     await connect();
     const findUser = await Users.findOne({ email });
-    console.log(findUser);
     const userAlreadyExist = Boolean(findUser);
     if (userAlreadyExist) {
       return NextResponse.json({
