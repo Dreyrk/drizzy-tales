@@ -10,13 +10,11 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }) {
-  const session = await getServerSession();
-
   return (
     <html lang="en">
       <body
         className={`${inter.className} bg-[#000814] text-white relative max-h-screen`}>
-        <AuthProvider session={session}>{children}</AuthProvider>
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );

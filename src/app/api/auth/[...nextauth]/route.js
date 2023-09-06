@@ -45,22 +45,20 @@ export const authOptions = {
     signIn: "/profile",
   },
   callbacks: {
-    async jwt({ token, user, session, trigger }) {
-      if (trigger === "update") {
+    async jwt({ token, user }) {
+      if (user) {
+        token = {
+          ...token,
+          user: {
+            id: user?._id,
+            isAdmin: user?.isAdmin,
+            pseudo: user?.pseudo,
+            email: user?.email,
+          },
+        };
       }
-
-      return {
-        ...token,
-        user: {
-          id: user?._id,
-          isAdmin: user?.isAdmin,
-          pseudo: user?.pseudo,
-          email: user?.email,
-          watchlist: user?.watchlist,
-        },
-      };
+      return token;
     },
-
     async session({ session, token }) {
       session.user = token.user;
 

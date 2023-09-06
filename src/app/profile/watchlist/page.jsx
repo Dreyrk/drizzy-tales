@@ -4,18 +4,29 @@
 import { useSession } from "next-auth/react"
 import AnimeBox from "../../components/AnimeBox"
 import NavBar from "../../components/NavBar"
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import getUserWatchlist from "@/app/serverActions/getUserWatchlist";
 
 export default function Page() {
     const { data: session, status } = useSession();
-    const router = useRouter()
+    const router = useRouter();
+    const [watchlist, setWatchlist] = useState([])
 
     useEffect(() => {
         if (status === "unauthenticated") {
             router.push("/")
         } else {
-            return
+            async function getWatchlist() {
+                const watchlist = await getUserWatchlist();
+                return watchlist;
+            }
+            const userWatchlist = getWatchlist();
+            if (userWatchlist[0]) {
+                setWatchlist(userWatchlist)
+            } else {
+                return
+            }
         }
     }, [status])
 
@@ -24,8 +35,8 @@ export default function Page() {
             <h1 className="p-4 text-2xl font-bold underline">{session?.user.pseudo ? `${session?.user.pseudo}'s watchlist` : "loading..."}</h1>
             <div className="flex flex-col items-center my-6 content gap-14">
                 {
-                    session?.user.watchlist.animes[0] ?
-                        session?.user.watchlist.animes.map((anime, i) => {
+                    watchlist[0] ?
+                        watchlist.map((anime, i) => {
                             return <AnimeBox anime={anime} key={i} />
                         })
                         :

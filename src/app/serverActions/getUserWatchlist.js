@@ -1,14 +1,21 @@
 "use server";
+import getLocalUrl from "@/utils/getLocalUrl";
+
+const BASE_URL = getLocalUrl();
 
 async function getUserWatchlist(id) {
   try {
-    const res = await fetch(`/api/users/${id}/watchlist`);
+    if (id) {
+      const res = await fetch(`${BASE_URL}/api/users/${id}/watchlist`);
 
-    if (res.ok) {
-      const data = await res.json();
-      return data.data;
+      if (res.ok) {
+        const data = await res.json();
+        return data.data;
+      }
     }
   } catch (e) {
     console.error(`failed to get watchlist : ${e.message}`);
   }
 }
+
+export default getUserWatchlist;

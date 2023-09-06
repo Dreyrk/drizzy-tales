@@ -35,6 +35,7 @@ export async function PUT(req, { params, query }) {
     );
   } catch (e) {
     console.error(`Failed to update watchlist: ${e.message}`);
+    return NextResponse.json({ error: e }, { status: 500 });
   }
 }
 
@@ -50,10 +51,11 @@ export async function GET(req, { params, query }) {
     await connect();
     const currentUser = await Users.findById(id);
 
-    const watchlist = currentUser.watchlist.animes.json;
+    const watchlist = currentUser.watchlist.animes;
 
     return NextResponse.json({ data: watchlist }, { status: 200 });
   } catch (e) {
     console.error(`Failed to get watchlist: ${e.message}`);
+    return NextResponse.json({ error: e }, { status: 500 });
   }
 }
