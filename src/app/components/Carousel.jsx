@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import { BsChevronLeft, BsChevronRight } from 'react-icons/bs'
 import CarouselItem from './CarouselItem';
 
-const Carousel = ({ slides, auto = false, interval = 3000 }) => {
+const Carousel = ({ slides, auto = true, interval = 5000 }) => {
     const [current, setCurrent] = useState(0);
     const [touchStartX, setTouchStartX] = useState(null);
 
@@ -36,7 +36,7 @@ const Carousel = ({ slides, auto = false, interval = 3000 }) => {
         if (!auto) return
         const slideInterval = setInterval(nextSlide, interval)
         return () => clearInterval(slideInterval)
-    }, [])
+    }, [current])
 
     return (
         <div className='relative w-screen overflow-hidden'

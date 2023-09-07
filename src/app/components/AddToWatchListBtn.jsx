@@ -5,53 +5,44 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react"
 import updateWatchlist from "../serverActions/updateWatchlist";
 import getUserWatchlist from "../serverActions/getUserWatchlist";
+import useWatchlistContext from "../contexts/WatchlistConext";
 
 
 export default function AddToWatchlistBtn({ anime }) {
     const { status, data: session } = useSession();
-    const [added, setAdded] = useState(false);
-    const [watchlist, setWatchlist] = useState([]);
-
+    const { watchlist, setWatchlist } = useWatchlistContext()
     const userId = session?.user.id;
+    const [added, setAdded] = useState(false);
 
     useEffect(() => {
-        async function fetchData() {
+        async function updateWatchlistData() {
             if (userId) {
                 const userWatchlist = await getUserWatchlist(userId);
-                setWatchlist(userWatchlist);
+                setAdded(userWatchlist.some((item) => item.id === anime.id));
             }
         }
-
-        fetchData();
-        if (Boolean(watchlist)) {
-            setAdded(watchlist.some((el) => el.id === anime.id))
-        }
-    }, [])
-
+        updateWatchlistData();
+    }, [userId, anime.id]);
 
     const handleClick = async () => {
-        if (added) {
-            setAdded(false);
-        } else {
-            setAdded(true);
-        }
         const newWatchlist = await updateWatchlist(userId, anime);
-        console.log(newWatchlist)
-        setWatchlist(newWatchlist);
+        await setWatchlist(newWatchlist);
+        console.log(watchlist)
+        const isAdded = await watchlist.animes.some((el) => el.id === anime.id)
+        setAdded(isAdded);
     };
 
-    if (status === "authenticated") {
-        return (
-            <button onClick={handleClick} type="button" className="no-style-btn w-[25px] h-[25px]">
-                {
-                    added ?
-                        <AiOutlineMinusCircle className="animate-one-spin" size={20} color="#f4f4f6" />
-                        :
-                        <AiOutlinePlusCircle className="animate-one-spin" size={20} color="#f4f4f6" />
-                }
-            </button>
-        )
-    } else {
-        return null
+    if (status !== "authenticated") {
+        return null;
     }
+
+    return (
+        <button onClick={handleClick} type="button" className="no-style-btn w-[25px] h-[25px]">
+            {added ? (
+                <AiOutlineMinusCircle className="animate-one-spin" size={20} color="#f4f4f6" />
+            ) : (
+                <AiOutlinePlusCircle className="animate-one-spin" size={20} color="#f4f4f6" />
+            )}
+        </button>
+    );
 }

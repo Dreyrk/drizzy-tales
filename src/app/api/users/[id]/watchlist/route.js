@@ -30,7 +30,7 @@ export async function PUT(req, { params, query }) {
 
     await currentUser.save();
     return NextResponse.json(
-      { success: true, data: currentUser },
+      { success: true, data: currentUser.watchlist },
       { status: 201 }
     );
   } catch (e) {
@@ -47,13 +47,15 @@ export async function GET(req, { params, query }) {
         { message: "mangas watchlist is not available yet" },
         { status: 400 }
       );
+    } else {
+      await connect();
+      const currentUser = await Users.findById(id);
+
+      return NextResponse.json(
+        { data: currentUser.watchlist.animes },
+        { status: 200 }
+      );
     }
-    await connect();
-    const currentUser = await Users.findById(id);
-
-    const watchlist = currentUser.watchlist.animes;
-
-    return NextResponse.json({ data: watchlist }, { status: 200 });
   } catch (e) {
     console.error(`Failed to get watchlist: ${e.message}`);
     return NextResponse.json({ error: e }, { status: 500 });
