@@ -6,7 +6,7 @@ const BASE_URL = getLocalUrl();
 async function getUserWatchlist(id) {
   try {
     if (id) {
-      const res = await fetch(`${BASE_URL}/api/users/${id}/watchlist`, {
+      const res = await fetch(`api/users/${id}/watchlist`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
