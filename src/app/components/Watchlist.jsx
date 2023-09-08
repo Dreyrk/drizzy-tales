@@ -15,7 +15,7 @@ function Watchlist({ watchlist }) {
             <div className="flex flex-col items-center my-6 content gap-14">
                 {watchlist.animes[0] !== undefined ? (
                     watchlist.animes.map((anime, i) => (
-                        <AnimeBox anime={anime} key={i} />
+                        <AnimeBox watchlist={watchlist} anime={anime} key={i} />
                     ))
                 ) : (
                     <div className="grid w-full p-6 h-96 place-content-center">
