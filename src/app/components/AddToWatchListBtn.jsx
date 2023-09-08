@@ -10,7 +10,7 @@ import useWatchlistContext from "../contexts/WatchlistConext";
 
 export default function AddToWatchlistBtn({ anime }) {
     const { status, data: session } = useSession();
-    const { watchlist, setWatchlist } = useWatchlistContext()
+    const { watchlist } = useWatchlistContext()
     const userId = session?.user.id;
     const [added, setAdded] = useState(false);
 
@@ -25,9 +25,7 @@ export default function AddToWatchlistBtn({ anime }) {
     }, [userId, anime.id]);
 
     const handleClick = async () => {
-        const newWatchlist = await updateWatchlist(userId, anime);
-        await setWatchlist(newWatchlist);
-        console.log(watchlist)
+        await updateWatchlist(userId, anime);
         const isAdded = await watchlist.animes.some((el) => el.id === anime.id)
         setAdded(isAdded);
     };
