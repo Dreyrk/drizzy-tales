@@ -4,7 +4,7 @@ import getLocalUrl from "@/utils/getLocalUrl";
 const BASE_URL = getLocalUrl();
 
 async function updateWatchlist(id, data) {
-  let res = await fetch(`${BASE_URL}/api/users/${id}/watchlist`, {
+  let res = await fetch(`api/users/${id}/watchlist`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
