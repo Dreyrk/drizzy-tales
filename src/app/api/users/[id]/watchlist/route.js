@@ -52,7 +52,7 @@ export async function GET(req, { params, query }) {
       const currentUser = await Users.findById(id);
 
       return NextResponse.json(
-        { data: currentUser.watchlist.animes },
+        { data: currentUser.watchlist },
         { status: 200 }
       );
     }
