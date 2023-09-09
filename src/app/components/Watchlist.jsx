@@ -7,6 +7,7 @@ import AnimeBox from "./AnimeBox";
 function Watchlist({ watchlist }) {
     const { data: session } = useSession();
 
+
     return (
         <>
             <div className="mb-6">
