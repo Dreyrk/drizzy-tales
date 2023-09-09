@@ -9,11 +9,14 @@ function Watchlist({ watchlist }) {
 
     return (
         <>
-            <h1 className="p-4 text-2xl font-bold underline">
-                {session?.user.pseudo ? `${session?.user.pseudo}'s watchlist` : "loading..."}
-            </h1>
-            <div className="flex flex-col items-center my-6 content gap-14">
-                {watchlist.animes[0] !== undefined ? (
+            <div className="mb-6">
+                <h1 className="p-4 text-2xl font-bold underline">
+                    {session?.user.pseudo ? `${session?.user.pseudo}'s watchlist` : "loading..."}
+                </h1>
+                <span className="ml-4 text-sm font-light" >Animes in Watchlist : {watchlist.animes.length}</span>
+            </div>
+            <div className="flex flex-col items-center lg:grid lg:grid-cols-3 gap-10 place-items-start min-h-[85vh] my-12">
+                {watchlist ? (
                     watchlist.animes.map((anime, i) => (
                         <AnimeBox watchlist={watchlist} anime={anime} key={i} />
                     ))
@@ -29,4 +32,4 @@ function Watchlist({ watchlist }) {
     )
 }
 
-export default Watchlist
+export default Watchlist;

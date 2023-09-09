@@ -2,23 +2,32 @@
 
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai";
 import { useState, useEffect } from "react";
+import { useRouter } from 'next/navigation';
 import { useSession } from "next-auth/react"
 import updateWatchlist from "../serverActions/updateWatchlist";
 
 
 export default function AddToWatchlistBtn({ anime, watchlist }) {
+    const router = useRouter();
     const { status, data: session } = useSession();
     const userId = session?.user.id;
     const [added, setAdded] = useState(false);
 
     useEffect(() => {
-        setAdded(watchlist.animes.some((item) => item.id === anime.id));
-    }, [watchlist]);
+        if (Boolean(watchlist)) {
+            setAdded(watchlist.animes.some((item) => item.id === anime.id));
+        }
+    }, [anime.id, watchlist]);
 
     const handleClick = async () => {
-        const newWatchlist = await updateWatchlist(userId, anime);
-        const isAdded = await newWatchlist.animes.some((el) => el.id === anime.id)
-        setAdded(isAdded);
+        if (userId) {
+            const newWatchlist = await updateWatchlist(userId, anime);
+            const isAdded = await newWatchlist.animes.some((el) => el.id === anime.id)
+            setAdded(isAdded);
+            if (!isAdded) {
+                router.refresh();
+            }
+        }
     };
 
     if (status !== "authenticated") {

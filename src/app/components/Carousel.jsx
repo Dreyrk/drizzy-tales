@@ -1,7 +1,6 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 'use client'
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { BsChevronLeft, BsChevronRight } from 'react-icons/bs'
 import CarouselItem from './CarouselItem';
 
@@ -9,9 +8,9 @@ const Carousel = ({ slides, auto = true, interval = 5000 }) => {
     const [current, setCurrent] = useState(0);
     const [touchStartX, setTouchStartX] = useState(null);
 
-    const nextSlide = () => {
+    const nextSlide = useCallback(() => {
         setCurrent((current + 1) % slides.length);
-    };
+    }, [current, slides.length]);
 
     const prevSlide = () => {
         setCurrent((current - 1 + slides.length) % slides.length);
@@ -36,7 +35,7 @@ const Carousel = ({ slides, auto = true, interval = 5000 }) => {
         if (!auto) return
         const slideInterval = setInterval(nextSlide, interval)
         return () => clearInterval(slideInterval)
-    }, [current])
+    }, [current, auto, interval, nextSlide])
 
     return (
         <div className='relative w-screen overflow-hidden'

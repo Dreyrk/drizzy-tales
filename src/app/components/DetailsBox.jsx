@@ -4,7 +4,7 @@ import { BsDot, BsStarFill } from "react-icons/bs"
 import getStarsRating from "../helpers/getStarsRating"
 import AddToWatchlistBtn from "./AddToWatchListBtn"
 
-export default function DetailsBox({ anime, genres, setPlay }) {
+export default function DetailsBox({ anime, genres, setPlay, watchlist }) {
 
     return (
         <div className="m-auto -translate-y-40 z-40 flex flex-col w-[90%] gap-4 p-4 rounded-lg bg-slate-500 h-[320px]">
@@ -43,7 +43,7 @@ export default function DetailsBox({ anime, genres, setPlay }) {
                     {getStarsRating(anime?.attributes.averageRating)}
                     <BsStarFill size={20} color="rgb(168 85 247)" />
                 </span>
-                <AddToWatchlistBtn anime={anime} />
+                <AddToWatchlistBtn watchlist={watchlist} anime={anime} />
             </div>
         </div>
     )
