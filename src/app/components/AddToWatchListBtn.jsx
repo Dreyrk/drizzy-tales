@@ -12,13 +12,14 @@ export default function AddToWatchlistBtn({ anime, watchlist }) {
     const pathname = usePathname();
     const { status, data: session } = useSession();
     const userId = session?.user.id;
-    const [added, setAdded] = useState(false);
+    const [added, setAdded] = useState(Boolean(watchlist && watchlist.animes.some((item) => item.id === anime.id)));
 
     useEffect(() => {
-        if (Boolean(watchlist)) {
-            setAdded(watchlist.animes.some((item) => item.id === anime.id));
+        if (pathname.includes("watchlist") && anime.id) {
+            router.refresh()
         }
-    }, [anime.id, watchlist]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [pathname])
 
     const handleClick = async () => {
         if (userId) {

@@ -22,7 +22,7 @@ export default function Section({ category }) {
                     }
                 </button>
             </div>
-            <div className={`flex px-3 gap-6 overflow-x-auto no-scrollbar min-h-fit w-screen ${!hide ? "animate-swipe-top-to-bottom-enter" : "hidden"}`}>
+            <div className={`flex px-3 gap-6 overflow-y-hidden overflow-x-auto no-scrollbar min-h-fit w-screen ${!hide ? "animate-swipe-top-to-bottom-enter" : "hidden"}`}>
                 {data?.map((anime) => {
                     return <AnimeCard key={anime.id} id={anime.id} anime={anime.attributes} isLoading={isLoading} isError={isError} />
                 })}
