@@ -109,7 +109,7 @@ body {
   overflow-x: hidden;
   min-height: 90vh;
   width: 100vw;
-  background-color: #202020;
+  background-color: var(--light-black);
   margin-bottom: 12vh;
   @apply py-4;
 }
