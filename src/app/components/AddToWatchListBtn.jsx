@@ -2,13 +2,14 @@
 
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai";
 import { useState, useEffect } from "react";
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { useSession } from "next-auth/react"
 import updateWatchlist from "../serverActions/updateWatchlist";
 
 
 export default function AddToWatchlistBtn({ anime, watchlist }) {
     const router = useRouter();
+    const pathname = usePathname();
     const { status, data: session } = useSession();
     const userId = session?.user.id;
     const [added, setAdded] = useState(false);
@@ -24,7 +25,7 @@ export default function AddToWatchlistBtn({ anime, watchlist }) {
             const newWatchlist = await updateWatchlist(userId, anime);
             const isAdded = await newWatchlist.animes.some((el) => el.id === anime.id)
             setAdded(isAdded);
-            if (!isAdded) {
+            if (!isAdded && pathname.includes("watchlist")) {
                 router.refresh();
             }
         }
