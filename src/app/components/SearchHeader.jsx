@@ -7,7 +7,7 @@ export default function SearchHeader({ setSearching, setSearch, search }) {
         setSearch("")
     }
     return (
-        <header>
+        <header className="w-full bg-black">
             <div className="justify-around base-header animate-swipe-right-to-left">
                 <button onClick={closeSearch} type="button" className={`no-style-btn animate-one-spin`}>
                     <MdClose size={30} />

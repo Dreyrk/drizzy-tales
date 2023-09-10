@@ -20,7 +20,7 @@ export default function Header({ setSort, search, setSearch, newUser, setEdit, e
                 )
             } else {
                 return (
-                    <NormalHeader newUser={newUser} setSort={setSort} title={"Browse"} setSearching={setSearching} />
+                    <NormalHeader edit={edit} setEdit={setEdit} newUser={newUser} setSort={setSort} title={"Browse"} setSearching={setSearching} />
                 )
             }
         case "/chat":
@@ -30,7 +30,7 @@ export default function Header({ setSort, search, setSearch, newUser, setEdit, e
                 )
             } else {
                 return (
-                    <NormalHeader setSort={setSort} title={"Chat"} setSearching={setSearching} />
+                    <NormalHeader edit={edit} setEdit={setEdit} setSort={setSort} title={"Chat"} setSearching={setSearching} />
                 )
             }
         case "/profile":

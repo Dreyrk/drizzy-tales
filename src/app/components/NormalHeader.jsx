@@ -20,7 +20,7 @@ export default function NormalHeader({ title, setSearching, setSort, newUser, se
     const [showFilters, setShowFilters] = useState(false);
     const pathname = usePathname()
     return (
-        <header className="w-full">
+        <header className="w-full bg-black">
             <HeaderBtn edit={edit} setEdit={setEdit} title={title} newUser={newUser} setSearching={setSearching} pathname={pathname} setShowFilters={setShowFilters} />
             {showFilters && pathname === "/browse" && <Filters filtersArray={filtersArray} setSort={setSort} />}
         </header>
