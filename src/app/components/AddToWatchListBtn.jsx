@@ -12,7 +12,7 @@ export default function AddToWatchlistBtn({ anime, watchlist }) {
     const pathname = usePathname();
     const { status, data: session } = useSession();
     const userId = session?.user.id;
-    const [added, setAdded] = useState(Boolean(watchlist && watchlist.animes.some((item) => item.id === anime.id)));
+    const [added, setAdded] = useState(watchlist.animes ? watchlist.animes.some((item) => item.id === anime.id) : false);
 
     useEffect(() => {
         if (pathname.includes("watchlist") && anime.id) {
@@ -24,25 +24,29 @@ export default function AddToWatchlistBtn({ anime, watchlist }) {
     const handleClick = async () => {
         if (userId) {
             const newWatchlist = await updateWatchlist(userId, anime);
-            const isAdded = await newWatchlist.animes.some((el) => el.id === anime.id)
-            setAdded(isAdded);
-            if (!isAdded && pathname.includes("watchlist")) {
-                router.refresh();
+            if (newWatchlist.animes) {
+                const isAdded = await newWatchlist.animes.some((el) => el.id === anime.id)
+                setAdded(isAdded);
+                if (!isAdded && pathname.includes("watchlist")) {
+                    router.refresh();
+                }
             }
         }
     };
 
-    if (status !== "authenticated") {
+    if (status === "unauthenticated" || status === "loading") {
         return null;
+    } else if (status === "authenticated") {
+        return (
+            <button onClick={handleClick} type="button" className="no-style-btn w-[25px] h-[25px]">
+                {added ? (
+                    <AiOutlineMinusCircle className="animate-one-spin" size={20} color="#f4f4f6" />
+                ) : (
+                    <AiOutlinePlusCircle className="animate-one-spin" size={20} color="#f4f4f6" />
+                )}
+            </button>
+        );
     }
 
-    return (
-        <button onClick={handleClick} type="button" className="no-style-btn w-[25px] h-[25px]">
-            {added ? (
-                <AiOutlineMinusCircle className="animate-one-spin" size={20} color="#f4f4f6" />
-            ) : (
-                <AiOutlinePlusCircle className="animate-one-spin" size={20} color="#f4f4f6" />
-            )}
-        </button>
-    );
+
 }
