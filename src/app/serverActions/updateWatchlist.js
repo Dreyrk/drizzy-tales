@@ -7,6 +7,7 @@ async function updateWatchlist(id, data) {
   const protocal = process?.env.NODE_ENV === "development" ? "http" : "https";
   try {
     if (id) {
+      console.log(`${protocal}://${host}/api/users/${id}/watchlist`);
       let res = await fetch(`${protocal}://${host}/api/users/${id}/watchlist`, {
         method: "PUT",
         headers: {

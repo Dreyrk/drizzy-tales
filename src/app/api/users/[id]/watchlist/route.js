@@ -16,8 +16,8 @@ export async function PUT(req, { params, query }) {
       );
     }
 
-    const animeIsInWatchlist = currentUser.watchlist.animes.some(
-      (el) => el.id === anime.id
+    const animeIsInWatchlist = Boolean(
+      currentUser.watchlist.animes.some((el) => el.id === anime.id)
     );
 
     if (!animeIsInWatchlist) {

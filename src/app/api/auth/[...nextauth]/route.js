@@ -64,7 +64,7 @@ export const authOptions = {
         };
         await Users.findByIdAndUpdate(token.user.id, {
           pseudo: token.pseudo,
-          watchlist: token.email,
+          email: token.email,
         });
       }
       return token;
