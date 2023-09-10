@@ -1,13 +1,10 @@
-import Header from "../components/Header";
 import NavBar from "../components/NavBar";
+import Chat from "../components/Chat";
 
-export default function Page() {
+export default async function Page() {
     return (
         <div className="page">
-            <Header />
-            <div className="content">
-
-            </div>
+            <Chat />
             <NavBar />
         </div>
     )

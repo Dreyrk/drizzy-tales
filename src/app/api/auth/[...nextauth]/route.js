@@ -45,7 +45,13 @@ export const authOptions = {
     signIn: "/profile",
   },
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, session, trigger }) {
+      if (trigger === "update" && session?.pseudo) {
+        token.user.pseudo = session.pseudo;
+      }
+      if (trigger === "update" && session?.email) {
+        token.user.email = session.email;
+      }
       if (user) {
         token = {
           ...token,
@@ -56,6 +62,10 @@ export const authOptions = {
             email: user?.email,
           },
         };
+        await Users.findByIdAndUpdate(token.user.id, {
+          pseudo: token.pseudo,
+          watchlist: token.email,
+        });
       }
       return token;
     },

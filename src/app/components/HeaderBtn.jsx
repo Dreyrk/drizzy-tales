@@ -15,6 +15,13 @@ function HeaderBtn({ pathname, title, setSearching, setShowFilters, newUser, set
             setEdit(false)
         }
     }
+    const editChat = () => {
+        if (!edit) {
+            setEdit(true)
+        } else {
+            setEdit(false)
+        }
+    }
     if (pathname === "/profile") {
         return (
             <div className="justify-between base-header animate-swipe-left-to-right">
@@ -45,10 +52,30 @@ function HeaderBtn({ pathname, title, setSearching, setShowFilters, newUser, set
                     <button onClick={() => setSearching(true)} type="button" className={`no-style-btn`}>
                         <FaSearch size={25} />
                     </button>
-                    <button type="button" onClick={() => setShowFilters((prev) => !prev)} className={`no-style-btn ${pathname === "/" && "hidden"}`}>
+                    <button type="button" onClick={() => setShowFilters((prev) => !prev)} className={`no-style-btn`}>
                         <BiFilterAlt size={30} color="#f4f4f6" />
                     </button>
                 </div>
+            </div>
+        )
+    }
+    else if (pathname === "/chat") {
+        return (
+            <div className="justify-between base-header animate-swipe-left-to-right">
+                <button type="button" className="no-style-btn">
+                    <BsFillCloudDrizzleFill color="#f4f4f6" size={30} />
+                </button>
+                <h1 className={`m-0 text-center text-2xl font-semibold`}>{title}</h1>
+                {
+                    !edit ?
+                        <button onClick={editChat}>
+                            <AiOutlineEdit size={30} color="#f4f4f6" />
+                        </button>
+                        :
+                        <button onClick={editChat}>
+                            <AiOutlineCheck size={30} color="#f4f4f6" />
+                        </button>
+                }
             </div>
         )
     }
