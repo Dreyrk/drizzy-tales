@@ -1,7 +1,7 @@
 "use client"
 
 import { useSession } from "next-auth/react";
-import { useRef, useState } from "react"
+import { useRef, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import Loader from "./Loader";
@@ -64,7 +64,7 @@ export default function Chat({ data }) {
                     theme="dark"
                 />
                 <Header edit={edit} setEdit={setEdit} />
-                <div className="container">
+                <div className="">
                     <MessageDisplay data={data} />
                     <MessageForm formRef={formRef} handleAction={post} />
                 </div>

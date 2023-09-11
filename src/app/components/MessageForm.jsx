@@ -1,4 +1,4 @@
-import { IoSend } from "react-icons/io5";
+import SubmitBtn from "./SubmitBtn";
 
 export default function MessageForm({ handleAction, formRef }) {
     return (
@@ -10,9 +10,7 @@ export default function MessageForm({ handleAction, formRef }) {
                 type="text"
                 autoComplete="off"
             />
-            <button className="absolute p-2 rounded-lg bg-gradient-to-br from-purple-400 via-purple-600 to-violet-800 right-6" type="submit">
-                <IoSend size={20} />
-            </button>
+            <SubmitBtn />
         </form>
     )
 }
