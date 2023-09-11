@@ -30,7 +30,11 @@ export async function PUT(req, { params, query }) {
 
     await currentUser.save();
     return NextResponse.json(
-      { success: true, data: currentUser.watchlist },
+      {
+        success: true,
+        add: animeIsInWatchlist ? false : true,
+        data: currentUser.watchlist,
+      },
       { status: 201 }
     );
   } catch (e) {

@@ -23,12 +23,14 @@ async function updateWatchlist(user, data) {
       res = await res.json();
 
       if (res.success) {
-        const message = {
-          user,
-          text: data.attributes.titles.en,
-          auto: true,
-        };
-        postMessage(message);
+        if (res.add) {
+          const message = {
+            user,
+            text: data.attributes.titles.en,
+            auto: true,
+          };
+          postMessage(message);
+        }
         return res.data;
       }
     }
