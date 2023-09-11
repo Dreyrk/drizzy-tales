@@ -46,7 +46,8 @@ export default function AnimeDetails({ watchlist }) {
     if (data && !isLoading && !isError) {
       getGenres()
     }
-  }, [data, getGenres, isError, isLoading]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const dynamicBackgroundImg = `
     @media (max-width: 767px) {

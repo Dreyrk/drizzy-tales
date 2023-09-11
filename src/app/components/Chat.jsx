@@ -1,29 +1,37 @@
 "use client"
 
 import { useSession } from "next-auth/react";
-import { useState } from "react"
+import { useRef, useState } from "react"
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import Loader from "./Loader";
 import LoginError from "./LoginError";
 import Header from "./Header";
+import MessageForm from "./MessageForm";
+import postMessage from "@/app/serverActions/postMessage"
+import MessageDisplay from "./MessageDisplay";
 
-export default function Chat() {
-    const { data: session, status } = useSession();
+export default function Chat({ data }) {
+    const { status, data: session } = useSession();
     const [edit, setEdit] = useState(false);
-    const [message, setMessage] = useState({
-        text: "",
-        user: {
-            id: ""
-        }
-    });
+    const formRef = useRef(null);
 
-    const handleTyping = (e) => {
-        if (message.user.id && session) {
-            setMessage((prev) => ({ ...prev, text: e.target.value }))
+    const post = async (formData) => {
+        const text = formData.get("messageText");
+        const user = session?.user;
+
+        if (text.length === 0 || text === "") {
+            toast.warn("Please write a message")
         } else {
-            setMessage((prev) => ({ user: { ...session?.user }, text: e.target.value }))
+            const message = {
+                user, text
+            }
+            await postMessage(message)
+            formRef.current.reset()
+            toast.success("Message sent !")
         }
-        console.log(message)
     }
+
     if (status === "unauthenticated") {
         return (
             <>
@@ -33,24 +41,30 @@ export default function Chat() {
         )
     } else if (status === "loading") {
         return (
-            <div className="grid place-content-center">
+            <div className="grid h-screen place-content-center">
                 <Loader />
             </div>
         )
     } else if (status === "authenticated") {
         return (
-            <>
+            <div>
+                <ToastContainer
+                    position="top-center"
+                    autoClose={2000}
+                    hideProgressBar={false}
+                    newestOnTop={true}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    pauseOnHover
+                    theme="dark"
+                />
                 <Header edit={edit} setEdit={setEdit} />
-                <div className="content">
-                    <div>
-
-                    </div>
-                    <div>
-                        <input onChange={handleTyping} type="text" />
-                        <button type="button">Send</button>
-                    </div>
+                <div>
+                    <MessageDisplay data={data} />
+                    <MessageForm formRef={formRef} handleAction={post} />
                 </div>
-            </>
+            </div>
         )
     }
 };

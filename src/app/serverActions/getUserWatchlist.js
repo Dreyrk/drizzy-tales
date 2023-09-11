@@ -8,7 +8,6 @@ async function getUserWatchlist(id) {
 
   try {
     if (id) {
-      console.log(`${protocal}://${host}/api/users/${id}/watchlist`);
       const res = await fetch(
         `${protocal}://${host}/api/users/${id}/watchlist`,
         {

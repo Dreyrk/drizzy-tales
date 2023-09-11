@@ -45,6 +45,7 @@ function Browse({ watchlist }) {
         } else if (data && data?.length > 1 && !isLoading) {
             setAnimes(animes.concat(...data[size - 1]))
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data]);
 
     useEffect(() => {

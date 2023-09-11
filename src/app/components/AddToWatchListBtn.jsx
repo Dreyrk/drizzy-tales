@@ -11,7 +11,7 @@ export default function AddToWatchlistBtn({ anime, watchlist }) {
     const router = useRouter();
     const pathname = usePathname();
     const { status, data: session } = useSession();
-    const userId = session?.user.id;
+    const user = session?.user;
     const [added, setAdded] = useState(watchlist.animes ? watchlist.animes.some((item) => item.id === anime.id) : false);
 
     useEffect(() => {
@@ -22,8 +22,8 @@ export default function AddToWatchlistBtn({ anime, watchlist }) {
     }, [pathname])
 
     const handleClick = async () => {
-        if (userId) {
-            const newWatchlist = await updateWatchlist(userId, anime);
+        if (user.id) {
+            const newWatchlist = await updateWatchlist(user, anime);
             if (newWatchlist.animes) {
                 const isAdded = await newWatchlist.animes.some((el) => el.id === anime.id)
                 setAdded(isAdded);
