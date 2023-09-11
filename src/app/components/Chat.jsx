@@ -7,6 +7,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import Loader from "./Loader";
 import LoginError from "./LoginError";
 import Header from "./Header";
+import NavBar from "../components/NavBar";
+
 import MessageForm from "./MessageForm";
 import postMessage from "@/app/serverActions/postMessage"
 import MessageDisplay from "./MessageDisplay";
@@ -37,6 +39,8 @@ export default function Chat({ data }) {
             <>
                 <Header edit={edit} setEdit={setEdit} />
                 <LoginError />
+                <NavBar />
+
             </>
         )
     } else if (status === "loading") {
@@ -60,10 +64,11 @@ export default function Chat({ data }) {
                     theme="dark"
                 />
                 <Header edit={edit} setEdit={setEdit} />
-                <div>
+                <div className="container">
                     <MessageDisplay data={data} />
                     <MessageForm formRef={formRef} handleAction={post} />
                 </div>
+                <NavBar />
             </div>
         )
     }
