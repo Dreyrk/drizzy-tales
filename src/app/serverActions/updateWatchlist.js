@@ -23,16 +23,14 @@ async function updateWatchlist(user, data) {
       res = await res.json();
 
       if (res.success) {
-        if (res.add) {
-          const message = {
-            user,
-            text: data.attributes.titles.en,
-            auto: true,
-          };
-          postMessage(message);
-        }
-        return res.data;
+        const message = {
+          user,
+          text: data.attributes.titles.en,
+          auto: res.message,
+        };
+        postMessage(message);
       }
+      return res.data;
     }
   } catch (e) {
     console.error(`failed to update watchlist : ${e.message}`);

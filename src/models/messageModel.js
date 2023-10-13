@@ -28,8 +28,8 @@ const messageSchema = new mongoose.Schema(
       default: 0,
     },
     auto: {
-      type: Boolean,
-      default: false,
+      type: String,
+      enum: ["add", "remove"],
     },
   },
   {
