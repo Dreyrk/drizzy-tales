@@ -15,7 +15,7 @@ export default function Page() {
     } else if (status === "loading") {
         return (
             <div className="grid h-screen place-content-center">
-                <Loader />
+                <Loader size={20} />
             </div>
         )
     } else {

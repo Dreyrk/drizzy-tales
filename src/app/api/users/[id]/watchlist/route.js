@@ -32,7 +32,7 @@ export async function PUT(req, { params, query }) {
     return NextResponse.json(
       {
         success: true,
-        add: animeIsInWatchlist ? false : true,
+        message: animeIsInWatchlist ? "remove" : "add",
         data: currentUser.watchlist,
       },
       { status: 201 }

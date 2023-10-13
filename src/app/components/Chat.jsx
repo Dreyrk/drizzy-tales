@@ -40,7 +40,6 @@ export default function Chat({ data }) {
                 <Header edit={edit} setEdit={setEdit} />
                 <LoginError />
                 <NavBar />
-
             </>
         )
     } else if (status === "loading") {
