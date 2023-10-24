@@ -26,7 +26,7 @@ function Watchlist({ watchlist }) {
                     </h1>
                     <span className="ml-4 text-sm font-light" >Animes in Watchlist : {watchlist.animes.length}</span>
                 </div>
-                <div className="flex flex-col items-center lg:grid lg:grid-cols-3 gap-10 place-items-start min-h-[85vh] my-12">
+                <div className="flex flex-col items-center lg:grid lg:grid-cols-3 gap-10 place-items-start min-h-[85vh] my-10 pb-20">
                     {watchlist ? (
                         watchlist.animes.map((anime, i) => (
                             <AnimeBox watchlist={watchlist} anime={anime} key={i} />

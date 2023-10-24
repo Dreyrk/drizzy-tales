@@ -1,4 +1,5 @@
 import Chat from "../components/Chat";
+import Loader from "../components/Loader";
 import getMessages from "../serverActions/getMessages";
 
 export default async function Page() {
@@ -6,7 +7,7 @@ export default async function Page() {
 
     return (
         <div className="max-h-screen no-scrollbar">
-            <Chat data={messages} />
+            {messages ? <Chat data={messages} /> : <Loader />}
         </div>
     )
 }
