@@ -1,4 +1,9 @@
 export default function getStarsRating(rating) {
-  const result = Math.round((parseInt(rating) / 20) * 10) / 10;
+  let result;
+  if (rating) {
+    result = Math.round((parseInt(rating, 10) / 20) * 10) / 10;
+  } else {
+    result = "NA";
+  }
   return result;
 }

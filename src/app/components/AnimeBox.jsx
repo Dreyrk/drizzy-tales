@@ -20,7 +20,9 @@ export default function AnimeBox({ anime, isLoading, isError, watchlist }) {
                 </div>
                 <div className="flex flex-col justify-between w-full h-full col-start-2 py-2 place-self-start">
                     <div className="flex items-center justify-between w-full">
-                        <p className="text-sm font-bold max-w-[170px] max-h-[60px] overflow-y-hidden lg:max-w-[245px]" >{attributes.titles.en || attributes.titles.en_jp || attributes.canonicalTitle}</p>
+                        <Link href={`anime/${anime.id}`}>
+                            <p className="text-sm font-bold max-w-[170px] max-h-[60px] overflow-y-hidden lg:max-w-[245px]" >{attributes.titles.en || attributes.titles.en_jp || attributes.canonicalTitle}</p>
+                        </Link>
                         {watchlist && <AddToWatchlistBtn watchlist={watchlist} key={anime.id} anime={anime} />}
                     </div>
                     <span className="text-xs font-extralight">{attributes.ageRatingGuide}</span>
