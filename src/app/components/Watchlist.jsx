@@ -24,7 +24,7 @@ function Watchlist({ watchlist }) {
                     <h1 className="p-4 text-2xl font-bold underline">
                         {session?.user.pseudo ? `${session?.user.pseudo}'s watchlist` : "loading..."}
                     </h1>
-                    <span className="ml-4 text-sm font-light" >Animes in Watchlist : {watchlist.animes.length}</span>
+                    <span className="ml-4 text-sm font-light" >Animes in Watchlist : {watchlist?.animes.length}</span>
                 </div>
                 <div className="flex flex-col items-center lg:grid lg:grid-cols-3 gap-10 place-items-start min-h-[85vh] my-10 pb-20">
                     {watchlist ? (
