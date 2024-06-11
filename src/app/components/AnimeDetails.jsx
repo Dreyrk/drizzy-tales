@@ -6,7 +6,6 @@ import YouTube from "react-youtube"
 import { IoArrowBack } from "react-icons/io5"
 import Link from "next/link"
 
-
 import useFetch from "@/app/hooks/useFetch"
 import Loader from "@/app/components/Loader"
 import NavBar from "@/app/components/NavBar"

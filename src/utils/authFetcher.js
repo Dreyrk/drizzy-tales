@@ -1,9 +1,9 @@
 import getLocalUrl from "./getLocalUrl";
 
-const BASE_URL = getLocalUrl();
+const { host, protocal } = getLocalUrl();
 
 export default async function authFetcher(url, user) {
-  const res = await fetch(`api/${url}`, {
+  const res = await fetch(`/api/${url}`, {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
