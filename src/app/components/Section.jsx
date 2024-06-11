@@ -12,7 +12,7 @@ export default function Section({ category }) {
 
     return (
         <section className={`no-scrollbar ${category.last && "mb-[11vh]"} ${hide && "hidden-section"}`}>
-            <div className="z-30 flex justify-between max-w-screen-sm px-3 lg:max-w-full">
+            <div className="z-30 flex justify-between max-w-full px-3">
                 <h2 className="grid text-2xl font-semibold place-content-center">{category.name}</h2>
                 <button onClick={() => setHide(!hide)} type="button" className="w-[25px] h-full">
                     {hide ?
