@@ -12,7 +12,7 @@ export default function AddToWatchlistBtn({ anime, watchlist }) {
     const pathname = usePathname();
     const { status, data: session } = useSession();
     const user = session?.user;
-    const [added, setAdded] = useState(watchlist.animes ? watchlist.animes.some((item) => item.id === anime.id) : false);
+    const [added, setAdded] = useState(watchlist?.animes ? watchlist.animes.some((item) => item.id === anime.id) : false);
 
     useEffect(() => {
         if (pathname.includes("watchlist") && anime.id) {
